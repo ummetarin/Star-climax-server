@@ -65,13 +65,13 @@ async function run() {
 
   // rev
 
-//   app.post('/revdata',async (req,res)=>{
-//     const reviewdata=req.body;
-//     console.log(reviewdata);
-//    const result=await revdatacoll.insertOne(reviewdata);
-//    res.send(result)
+  app.post('/revdata',async (req,res)=>{
+    const reviewdata=req.body;
+    console.log(reviewdata);
+   const result=await revdatacoll.insertOne(reviewdata);
+   res.send(result)
 
-//  } )
+ } )
 
 
 // User data
