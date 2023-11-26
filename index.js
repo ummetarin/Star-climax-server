@@ -53,13 +53,13 @@ async function run() {
 
   // wishlist
 
-  // app.post('/wishdata',async (req,res)=>{
-  //    const wishlist=req.body;
-  //   //  console.log(wishlist);
-  //   const result=await wishlistdata.insertOne(wishlist);
-  //   res.send(result)
+  app.post('/wishdata',async (req,res)=>{
+     const wishlist=req.body;
+    //  console.log(wishlist);
+    const result=await wishlistdata.insertOne(wishlist);
+    res.send(result)
 
-  // } )
+  } )
 
 
 
