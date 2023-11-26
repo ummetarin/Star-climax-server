@@ -14,7 +14,7 @@ app.use(express.json())
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.fdvzwaw.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -33,6 +33,11 @@ async function run() {
 
     const Carddata=client.db('AppertmentData').collection('apert-room')
     const Reviewdata=client.db('AppertmentData').collection('review')
+    const wishlistdata=client.db('AppertmentData').collection('wishlistdata')
+    const revdatacoll=client.db('AppertmentData').collection('reviewdata')
+    const userCollection=client.db('AppertmentData').collection('userdata')
+
+
 
    app.get('/roomdata',async(req,res)=>{
     const result=await Carddata.find().toArray();
@@ -45,6 +50,43 @@ async function run() {
     const result = await Carddata.findOne(query);
     res.send(result);
    })
+
+  // wishlist
+
+  // app.post('/wishdata',async (req,res)=>{
+  //    const wishlist=req.body;
+  //   //  console.log(wishlist);
+  //   const result=await wishlistdata.insertOne(wishlist);
+  //   res.send(result)
+
+  // } )
+
+
+
+  // rev
+
+//   app.post('/revdata',async (req,res)=>{
+//     const reviewdata=req.body;
+//     console.log(reviewdata);
+//    const result=await revdatacoll.insertOne(reviewdata);
+//    res.send(result)
+
+//  } )
+
+
+// User data
+
+app.post('/user',async (req,res)=>{
+  const userdata=req.body;
+  console.log(userdata);
+ const result=await userCollection.insertOne(userdata);
+ res.send(result)
+
+} )
+
+
+
+
 
    //review
 
