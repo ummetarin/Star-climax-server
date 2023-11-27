@@ -69,6 +69,22 @@ async function run() {
 
 
   // rev
+  app.get('/revdata',async(req,res)=>{
+    const result=await revdatacoll.find().toArray();
+    res.send(result);
+   })
+
+  //  app.get('/revdata/:id',async(req,res)=>{
+  //   const id = parseInt(req.params.id);
+  //   const query = {RoomNumber : id };
+  //   const result = await revdatacoll.findOne(query);
+  //   res.send(result);
+  //  })
+
+  // app.get('/revdata/:email',async(req,res)=>{
+  //   const result=await revdatacoll.find().toArray();
+  //   res.send(result);
+  //  })
 
   app.post('/revdata',async (req,res)=>{
     const reviewdata=req.body;
@@ -78,8 +94,14 @@ async function run() {
 
  } )
 
+ 
+
 
 // User data
+app.get('/user',async(req,res)=>{
+  const result=await userCollection.find().toArray();
+  res.send(result);
+ })
 
 app.post('/user',async (req,res)=>{
   const userdata=req.body;
