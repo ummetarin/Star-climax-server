@@ -53,6 +53,11 @@ async function run() {
 
   // wishlist
 
+  app.get('/wishdata',async(req,res)=>{
+    const result=await wishlistdata.find().toArray();
+    res.send(result);
+   })
+
   app.post('/wishdata',async (req,res)=>{
      const wishlist=req.body;
     //  console.log(wishlist);
@@ -78,7 +83,11 @@ async function run() {
 
 app.post('/user',async (req,res)=>{
   const userdata=req.body;
-  console.log(userdata);
+  const query={email:userdata.email}
+  const exit=await userCollection.findOne(query);
+  if(exit){
+    return res.send({message:"user already ace",insertedId:null})
+  }
  const result=await userCollection.insertOne(userdata);
  res.send(result)
 
