@@ -41,6 +41,7 @@ async function run() {
     const agentdata=client.db('AppertmentData').collection('agentdata')
     const GEtoffer=client.db('AppertmentData').collection('Offerdata')
     const Sellrelated=client.db('AppertmentData').collection('savebuy')
+    
 
 // jwt
 
@@ -65,8 +66,19 @@ async function run() {
     const query = { ID : id };
     const result = await Carddata.findOne(query);
     res.send(result);
+  
    })
 
+
+   app.post('/addroomdata',async (req,res)=>{
+    const wishlist=req.body;
+    const query={ID:wishlist.id}
+   //  console.log(wishlist);
+   const result=await Carddata.insertOne(wishlist);
+   res.send(result)
+  
+   
+  } )
   // wishlist
 
   app.get('/wishdata',async(req,res)=>{
@@ -119,24 +131,50 @@ app.post('/agentdata',async (req,res)=>{
 
 
 // buyrelated
+
+app.get('/propertydata',async(req,res)=>{
+  const result=await Sellrelated.find().toArray();
+  res.send(result);
+ })
+ app.get('/property/:email',async(req,res)=>{
+  const email=req.params.email;
+  // console.log(email);
+  const query={buyeremail:email};
+  const result=await Sellrelated.find(query).toArray();
+  res.send(result);
+ })
+
+
 app.get('/approveddata/:id',async(req,res)=>{
   const id=parseInt(req.params.id);
   const query={ID:id};
-  const result=await Sellrelated.findOne(query)
+  const result=await Sellrelated.find(query).toArray()
   res.send(result);
   
  })
 
 
-app.post('/approveddata',async (req,res)=>{
+app.post('/approveddata/:id',async (req,res)=>{
   const wishlist=req.body;
-  const query={ID:wishlist.id}
+//   const query={id:ID,Proname:Proname,buyeremail:buyeremail,
+// offerp:offerp,
+// Buyername:Buyername,
+// date:date,
+// agnam:agnam,
+// Protitle:Protitle
+//   }
  //  console.log(wishlist);
  const result=await Sellrelated.insertOne(wishlist);
  res.send(result)
 
  
 } )
+app.delete('/dataapproved/:id',async(req,res)=>{
+  const id=req.params.id;
+  const query={ _id : new ObjectId(id)}
+  const result=await GEtoffer.deleteOne(query);
+  res.send(result)
+ })
 
 
   // rev
@@ -145,31 +183,22 @@ app.post('/approveddata',async (req,res)=>{
     res.send(result);
    })
 
-   app.get('/revdata/:email',async(req,res)=>{
+   app.get('/revdataformy/:email',async(req,res)=>{
     const email=req.params.email;
+    // console.log(email);
     const query={revemail:email};
-    const result=await revdatacoll.findOne(query)
+    const result=await revdatacoll.find(query).toArray();
     res.send(result);
    })
 
-   app.get('/revdata/:id',async(req,res)=>{
+   app.get('/revdataid/:id',async(req,res)=>{
     const id=parseInt(req.params.id);
-    const query={RoomNumber:id};
-    const result=await revdatacoll.findOne(query)
+    const query={ID:id};
+    const result=await revdatacoll.find(query).toArray()
     res.send(result);
    })
 
-  //  app.get('/revdata/:id',async(req,res)=>{
-  //   const id = parseInt(req.params.id);
-  //   const query = {RoomNumber : id };
-  //   const result = await revdatacoll.findOne(query);
-  //   res.send(result);
-  //  })
 
-  // app.get('/revdata/:email',async(req,res)=>{
-  //   const result=await revdatacoll.find().toArray();
-  //   res.send(result);
-  //  })
 
   app.post('/revdata',async (req,res)=>{
     const reviewdata=req.body;
@@ -178,6 +207,14 @@ app.post('/approveddata',async (req,res)=>{
    res.send(result)
 
  } )
+
+ app.delete('/datadltrev/:id',async(req,res)=>{
+  const id=req.params.id;
+  const query={ _id :new ObjectId(id)}
+  const result=await revdatacoll.deleteOne(query);
+  res.send(result)
+ })
+
 // offfer data
 
 app.get('/offerdata',async(req,res)=>{
@@ -195,6 +232,11 @@ app.post('/offerdata',async (req,res)=>{
  
 } )
  
+
+// requested data
+
+
+
 
 
 // User data
